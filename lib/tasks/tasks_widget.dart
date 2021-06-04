@@ -128,30 +128,58 @@ class _TasksWidgetState extends State<TasksWidget> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    ToggleIcon(
-                                      onPressed: () async {
-                                        final completed =
-                                            !cardTasksRecord.completed;
+                                    StreamBuilder<List<TasksRecord>>(
+                                      stream: queryTasksRecord(
+                                        singleRecord: true,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+                                        List<TasksRecord>
+                                            toggleIconTasksRecordList =
+                                            snapshot.data;
+                                        // Customize what your widget looks like with no query results.
+                                        if (snapshot.data.isEmpty) {
+                                          // return Container();
+                                          // For now, we'll just include some dummy data.
+                                          toggleIconTasksRecordList =
+                                              createDummyTasksRecord(count: 1);
+                                        }
+                                        final toggleIconTasksRecord =
+                                            toggleIconTasksRecordList.first;
+                                        return ToggleIcon(
+                                          onPressed: () async {
+                                            final completed =
+                                                !toggleIconTasksRecord
+                                                    .completed;
 
-                                        final tasksRecordData =
-                                            createTasksRecordData(
-                                          completed: completed,
+                                            final tasksRecordData =
+                                                createTasksRecordData(
+                                              completed: completed,
+                                            );
+
+                                            await toggleIconTasksRecord
+                                                .reference
+                                                .update(tasksRecordData);
+                                          },
+                                          value:
+                                              toggleIconTasksRecord.completed,
+                                          onIcon: Icon(
+                                            Icons.check_box,
+                                            color: Colors.green,
+                                            size: 25,
+                                          ),
+                                          offIcon: Icon(
+                                            Icons.check_box_outline_blank,
+                                            color: Color(0xFF3B3A3A),
+                                            size: 25,
+                                          ),
                                         );
-
-                                        await cardTasksRecord.reference
-                                            .update(tasksRecordData);
                                       },
-                                      value: cardTasksRecord.completed,
-                                      onIcon: Icon(
-                                        Icons.check_box,
-                                        color: Colors.green,
-                                        size: 25,
-                                      ),
-                                      offIcon: Icon(
-                                        Icons.check_box_outline_blank,
-                                        color: Color(0xFF3B3A3A),
-                                        size: 25,
-                                      ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -162,42 +190,123 @@ class _TasksWidgetState extends State<TasksWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            cardTasksRecord.name,
-                                            style: FlutterFlowTheme.bodyText2
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
+                                          StreamBuilder<List<TasksRecord>>(
+                                            stream: queryTasksRecord(
+                                              singleRecord: true,
                                             ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
+                                              List<TasksRecord>
+                                                  textTasksRecordList =
+                                                  snapshot.data;
+                                              // Customize what your widget looks like with no query results.
+                                              if (snapshot.data.isEmpty) {
+                                                // return Container();
+                                                // For now, we'll just include some dummy data.
+                                                textTasksRecordList =
+                                                    createDummyTasksRecord(
+                                                        count: 1);
+                                              }
+                                              final textTasksRecord =
+                                                  textTasksRecordList.first;
+                                              return Text(
+                                                textTasksRecord.name,
+                                                style: FlutterFlowTheme
+                                                    .bodyText2
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              );
+                                            },
                                           ),
-                                          Text(
-                                            cardTasksRecord.description,
-                                            style: FlutterFlowTheme.subtitle1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
+                                          StreamBuilder<List<TasksRecord>>(
+                                            stream: queryTasksRecord(
+                                              singleRecord: true,
                                             ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
+                                              List<TasksRecord>
+                                                  textTasksRecordList =
+                                                  snapshot.data;
+                                              // Customize what your widget looks like with no query results.
+                                              if (snapshot.data.isEmpty) {
+                                                // return Container();
+                                                // For now, we'll just include some dummy data.
+                                                textTasksRecordList =
+                                                    createDummyTasksRecord(
+                                                        count: 1);
+                                              }
+                                              final textTasksRecord =
+                                                  textTasksRecordList.first;
+                                              return Text(
+                                                textTasksRecord.description,
+                                                style: FlutterFlowTheme
+                                                    .subtitle1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 14,
+                                                ),
+                                              );
+                                            },
                                           ),
                                           Card(
                                             clipBehavior:
                                                 Clip.antiAliasWithSaveLayer,
                                             color: Color(0x8203A9F4),
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  4, 2, 4, 2),
-                                              child: Text(
-                                                dateTimeFormat(
-                                                    'MMMMEEEEd',
-                                                    cardTasksRecord.deadline
-                                                        .toDate()),
-                                                style: FlutterFlowTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                ),
+                                            child: StreamBuilder<
+                                                List<TasksRecord>>(
+                                              stream: queryTasksRecord(
+                                                singleRecord: true,
                                               ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                }
+                                                List<TasksRecord>
+                                                    textTasksRecordList =
+                                                    snapshot.data;
+                                                // Customize what your widget looks like with no query results.
+                                                if (snapshot.data.isEmpty) {
+                                                  // return Container();
+                                                  // For now, we'll just include some dummy data.
+                                                  textTasksRecordList =
+                                                      createDummyTasksRecord(
+                                                          count: 1);
+                                                }
+                                                final textTasksRecord =
+                                                    textTasksRecordList.first;
+                                                return Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      4, 2, 4, 2),
+                                                  child: Text(
+                                                    dateTimeFormat(
+                                                        'MMMMEEEEd',
+                                                        textTasksRecord.deadline
+                                                            .toDate()),
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Poppins',
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           )
                                         ],
