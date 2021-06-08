@@ -6,6 +6,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
 import '../tasks/tasks_widget.dart';
+import '../tasks_copy/tasks_copy_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -165,7 +166,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -232,7 +233,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: Text(
                 'Deadline',
                 style: FlutterFlowTheme.subtitle1.override(
@@ -273,14 +274,15 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
                       );
 
                       await TasksRecord.collection.doc().set(tasksRecordData);
-                      await Navigator.push(
+                      await Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 50),
-                          reverseDuration: Duration(milliseconds: 50),
-                          child: TasksWidget(),
+                          duration: Duration(milliseconds: 300),
+                          reverseDuration: Duration(milliseconds: 300),
+                          child: TasksCopyWidget(),
                         ),
+                        (r) => false,
                       );
                     },
                     text: 'Done',
