@@ -44,7 +44,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               },
               icon: Icon(
                 Icons.calendar_today,
-                color: Colors.transparent,
+                color: Color(0x00000000),
                 size: 26,
               ),
               iconSize: 26,
