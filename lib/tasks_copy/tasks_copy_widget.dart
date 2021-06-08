@@ -335,8 +335,8 @@ class _TasksCopyWidgetState extends State<TasksCopyWidget> {
                         context,
                         PageTransition(
                           type: PageTransitionType.leftToRight,
-                          duration: Duration(milliseconds: 10),
-                          reverseDuration: Duration(milliseconds: 10),
+                          duration: Duration(milliseconds: 300),
+                          reverseDuration: Duration(milliseconds: 300),
                           child: CreateTaskWidget(),
                         ),
                       );
