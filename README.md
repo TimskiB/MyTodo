@@ -1,10 +1,8 @@
-# todo
+# Todo
 
-A new Flutter project.
+Trying to create a todo app.
 
 ## Getting Started
-
-FlutterFlow projects are built to run on the Flutter _stable_ release.
 
 ### IMPORTANT:
 
